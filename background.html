@@ -1,0 +1,75 @@
+<html><head></head>
+<body>
+<canvas id="canvas" style="display: none"></canvas>
+<script type="text/javascript">
+var Bookmark = {
+    current_url: '',
+
+    Update: function(url) {
+        if (url != Bookmark.current_url) {
+            window.localStorage.removeItem('toolbar_bookmark_url');
+            window.localStorage.setItem('toolbar_bookmark_url', url);
+            Bookmark.Icon.reset();
+        }
+    },
+
+    Icon: {
+        reset: function(url) {
+            if (!url) url = window.localStorage.getItem('toolbar_bookmark_url');
+            var can = document.getElementById('canvas');
+            var ctx = can.getContext('2d');
+            var img = new Image();
+            img.onload = function(){
+                can.width = img.width;
+                can.height = img.height;
+                ctx.drawImage(img, 0, 0, img.width, img.height);
+                var data = ctx.getImageData(0,0, img.width-1, img.height-1);
+                chrome.browserAction.setIcon({imageData: data});
+            }
+            //img.src = 'http://www.google.com/s2/favicons?domain='+url;
+            if (!url) url = '';
+            if (url.match(/^http:\/\//)) url = url.replace(/^http:\/\//, '');
+            var parts = url.split('/');
+            img.src = 'http://s2.googleusercontent.com/s2/favicons?domain='+parts[0];
+            console.log('trying to get image from '+img.src);
+        }
+    },
+    
+    Click: function() {
+        // should check for already opened settings here...
+        var bookmark_url = window.localStorage.getItem('toolbar_bookmark_url');
+        if (bookmark_url) {
+            if (!bookmark_url.match(/^chrome:/) && !bookmark_url.match(/http:\/\//)) {
+                bookmark_url = 'http://'+bookmark_url;
+            }
+            chrome.tabs.create({url: bookmark_url});
+            //window.close();
+        } else {
+            chrome.tabs.create({url: chrome.extension.getURL('settings.html')});
+            //window.close();
+        }
+    }
+};
+
+// add listener to communicate with settings page
+chrome.extension.onRequest.addListener(
+    function(request, sender, sendResponse) {
+        console.log(request);
+        if (request.action == 'reset_icon') {
+            Bookmark.Icon.reset();
+        }
+        if (request.action == 'save_bookmark') {
+            Bookmark.Update(request.bookmark_url);
+        }
+    }
+);
+
+// bind Iconv click event
+chrome.browserAction.onClicked.addListener(function(tab){
+    Bookmark.Click();
+});
+
+Bookmark.Icon.reset();
+</script>
+<!-- Written just for fun by Anton Kudris (aka jodaka) kudris@gmail.com -->
+</body></html>

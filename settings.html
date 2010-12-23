@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html><head>
+<title>Toolbar Bookmark Settings</title>
+<style type="text/css">
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #161616;
+    font-family: Sans;
+}
+
+#main {
+    margin: 0 auto;
+    width: 650px;
+    background: #1C2324;;
+    color: #ADD9CE;
+    padding: 0 2em 2em 2em;
+    -webkit-box-shadow: 0 0px 55px black;
+}
+
+h1 {
+    background-color: #D94141;
+    padding: 2em 0 0.5em 0;
+    margin: 0 0 1em 0;
+    color: black;
+    text-align: center;
+}
+
+a {
+    color: #49DEE6;
+}
+
+input[type="button"] {
+    font-size: 1.2em;
+    height: 2em;
+    padding: 0 1em;
+}
+
+
+input[type="text"] {
+    font-size: 1.2em;
+    height: 2em;
+    width: 100%;
+    padding: 0 0.2em;
+    margin: 0.3em 0 1.5em 0;
+}
+
+</style>
+</head>
+<body>
+    <div id="main">
+        <h1><img src="icon_40.png" alt="" align="absmiddle"> Toolbar Bookmark Settings</h1>
+        <label for="bookmark_url">Bookmark URL</label><br />
+        <input type="text" value="" id="bookmark_url" name="bookmark_url" />
+        <br />
+        if site icon doesn't displays correctly in browser toolbar, try to <a href="javascript:void(0)" onclick="reset_icon(); return false">reset it</a>
+        <br />
+        <br />
+        <input type="button" onclick="save()" value="save" /> or <a href="#" onclick="window.close(); return false">close</a>
+    </div>
+    
+<script type="text/javascript">
+// display current value
+var bookmark_url = window.localStorage.getItem('toolbar_bookmark_url');
+document.getElementById('bookmark_url').value = bookmark_url;
+
+// saving new value
+function save() {
+    var url = document.getElementById('bookmark_url').value;
+    console.log(url);
+    if (url != '') {
+        // ask background process to update icon
+        chrome.extension.sendRequest({action: 'save_bookmark', bookmark_url: url});
+    }
+}
+
+function reset_icon() {
+    chrome.extension.sendRequest({action: 'reset_icon'});
+}
+</script>
+</body>
+</html>
