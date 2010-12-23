@@ -53,13 +53,27 @@ input[type="text"] {
         <label for="bookmark_url">Bookmark URL</label><br />
         <input type="text" value="" id="bookmark_url" name="bookmark_url" />
         <br />
-        if site icon doesn't displays correctly in browser toolbar, try to <a href="javascript:void(0)" onclick="reset_icon(); return false">reset it</a>
+        Toolbar Icon <br />
+        <input type="radio" name="icon_type" id="bookmark_icon_favicon" onclick="javascript:bookmark_icon='favicon';"><label for="bookmark_icon_favicon">use site favicon</label><br />
+        <input type="radio" name="icon_type" id="bookmark_icon_def" onclick="javascript:bookmark_icon='default';"><label for="bookmark_icon_def">use default girl icon</label><br />
+        
+        <!--if site icon doesn't displays correctly in browser toolbar, try to <a href="javascript:void(0)" onclick="reset_icon(); return false">reset it</a>-->
         <br />
         <br />
         <input type="button" onclick="save()" value="save" /> or <a href="#" onclick="window.close(); return false">close</a>
     </div>
     
 <script type="text/javascript">
+var bookmark_icon = (window.localStorage.getItem('toolbar_bookmark_icon'))
+                    ? window.localStorage.getItem('toolbar_bookmark_icon')
+                    : 'default';
+if (bookmark_icon == 'default') {
+    document.getElementById('bookmark_icon_def').checked = 'checked';
+} else {
+    document.getElementById('bookmark_icon_favicon').checked = 'checked';
+}
+
+console.log(bookmark_icon);
 // display current value
 var bookmark_url = window.localStorage.getItem('toolbar_bookmark_url');
 document.getElementById('bookmark_url').value = bookmark_url;
@@ -69,8 +83,13 @@ function save() {
     var url = document.getElementById('bookmark_url').value;
     console.log(url);
     if (url != '') {
+        window.localStorage.getItem('toolbar_bookmark_icon')
         // ask background process to update icon
-        chrome.extension.sendRequest({action: 'save_bookmark', bookmark_url: url});
+        chrome.extension.sendRequest({
+            action          : 'save_bookmark',
+            bookmark_url    : url,
+            bookmark_icon   : bookmark_icon
+        });
     }
 }
 

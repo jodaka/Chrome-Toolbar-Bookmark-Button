@@ -4,14 +4,13 @@
       "default_icon": "icon_18.png",
       "name": "Click to go to bookmark"
    },
+   "default_locale": "en",
    "description": "Customizible Toolbar Bookmark Button",
    "icons": {
       "128": "icon_120.png"
    },
-   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCoX4bZPFwGt3UvkhUzAWedBeySXzvcESVvAqkTqnO6PS61kMKU006OdA5SOGvXmVi7RXlE5xhNp5wB5TH9rkvOK/6Sc19h/2OxZ4kQf7/WW5IIMRlhe5oDUz7RBxbSEbeDNHdLAbi8AzkNKsjyTWGjGBLPyYgf/VsY6cQT2d2b5wIDAQAB",
    "name": "Toolbar Bookmark Button",
    "options_page": "settings.html",
-   "permissions": [ "tabs", "http://www.google.com/*", "http://s2.googleusercontent.com/*" ],
-   "update_url": "http://clients2.google.com/service/update2/crx",
-   "version": "3.1"
+   "permissions": [ "tabs", "http://s2.googleusercontent.com/*" ],
+   "version": "4.0"
 }
