@@ -1,69 +1,27 @@
 <!DOCTYPE html>
 <html><head>
-<title>Toolbar Bookmark Settings</title>
-<style type="text/css">
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #161616;
-    font-family: Sans;
-}
-
-#main {
-    margin: 0 auto;
-    width: 650px;
-    background: #1C2324;;
-    color: #ADD9CE;
-    padding: 0 2em 2em 2em;
-    -webkit-box-shadow: 0 0px 55px black;
-}
-
-h1 {
-    background-color: #D94141;
-    padding: 2em 0 0.5em 0;
-    margin: 0 0 1em 0;
-    color: black;
-    text-align: center;
-}
-
-a {
-    color: #49DEE6;
-}
-
-input[type="button"] {
-    font-size: 1.2em;
-    height: 2em;
-    padding: 0 1em;
-}
-
-
-input[type="text"] {
-    font-size: 1.2em;
-    height: 2em;
-    width: 100%;
-    padding: 0 0.2em;
-    margin: 0.3em 0 1.5em 0;
-}
-
-</style>
+<title>Lol</title>
+<link href="settings.css" rel="stylesheet" type="text/css"> 
 </head>
 <body>
     <div id="main">
-        <h1><img src="icon_40.png" alt="" align="absmiddle"> Toolbar Bookmark Settings</h1>
-        <label for="bookmark_url">Bookmark URL</label><br />
+        <h1><img src="icon_40.png" alt="" align="absmiddle"> <span id="cfg_h1" class="i18n">Toolbar Bookmark Settings</span></h1>
+        <label for="bookmark_url" id="cfg_bookmark_url" class="i18n">Bookmark URL</label><br />
         <input type="text" value="" id="bookmark_url" name="bookmark_url" />
         <br />
-        Toolbar Icon <br />
-        <input type="radio" name="icon_type" id="bookmark_icon_favicon" onclick="javascript:bookmark_icon='favicon';"><label for="bookmark_icon_favicon">use site favicon</label><br />
-        <input type="radio" name="icon_type" id="bookmark_icon_def" onclick="javascript:bookmark_icon='default';"><label for="bookmark_icon_def">use default girl icon</label><br />
+        <span id="cfg_toolbar_icon" class="i18n">Toolbar Icon</span><br />
+        <input type="radio" name="icon_type" id="bookmark_icon_favicon" onclick="javascript:bookmark_icon='favicon';"><label for="bookmark_icon_favicon" id="cfg_toolbar_icon_fav" class="i18n">use site favicon</label><br />
+        <input type="radio" name="icon_type" id="bookmark_icon_def" onclick="javascript:bookmark_icon='default';"><label for="bookmark_icon_def" id="cfg_toolbar_icon_def" class="i18n">use default girl icon</label><br />
         
         <!--if site icon doesn't displays correctly in browser toolbar, try to <a href="javascript:void(0)" onclick="reset_icon(); return false">reset it</a>-->
         <br />
         <br />
-        <input type="button" onclick="save()" value="save" /> or <a href="#" onclick="window.close(); return false">close</a>
+        <input type="button" onclick="save()" value="save" id="cfg_save" class="i18n" /> <span id="cfg_or" class="i18n">or</span> <a href="#" onclick="window.close(); return false" id="cfg_close" class="i18n">close</a>
     </div>
     
 <script type="text/javascript">
+translate();
+
 var bookmark_icon = (window.localStorage.getItem('toolbar_bookmark_icon'))
                     ? window.localStorage.getItem('toolbar_bookmark_icon')
                     : 'default';
@@ -73,15 +31,38 @@ if (bookmark_icon == 'default') {
     document.getElementById('bookmark_icon_favicon').checked = 'checked';
 }
 
-console.log(bookmark_icon);
 // display current value
 var bookmark_url = window.localStorage.getItem('toolbar_bookmark_url');
 document.getElementById('bookmark_url').value = bookmark_url;
 
+function translate() {
+    document.title = chrome.i18n.getMessage('cfg_title');
+
+    // translating all i18n elements
+    var i18n = document.getElementsByClassName('i18n');
+    for (var i = 0; i < i18n.length; i++) {
+        var id = i18n[i].id;
+        var trans = chrome.i18n.getMessage(id);
+
+        if (trans) {
+            if (i18n[i].nodeName == 'SPAN' || i18n[i].nodeName == 'LABEL' || i18n[i].nodeName == 'A') {
+                i18n[i].innerHTML = trans;
+                continue;
+            }
+            if (i18n[i].nodeName == 'INPUT') {
+                i18n[i].value = trans;
+                continue;
+            }
+            console.warn('Dont know how to handle translation for '+i18n[i].nodeName);
+        } else {
+            console.warn('NO translation for '+id);
+        }
+    }
+}
+
 // saving new value
 function save() {
     var url = document.getElementById('bookmark_url').value;
-    console.log(url);
     if (url != '') {
         window.localStorage.getItem('toolbar_bookmark_icon')
         // ask background process to update icon

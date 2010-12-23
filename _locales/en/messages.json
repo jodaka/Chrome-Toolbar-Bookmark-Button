@@ -1,6 +1,38 @@
 {
-    
-    "loading" : {
-        "message"       : "Loading..."
+    "name": {
+        "message"       : "Silhouette Bookmark Button"
+    },
+    "goto_bookmark": {
+        "message"       : "Click to go to bookmark"
+    },
+    "description": {
+        "message"       : "Customizible Toolbar Bookmark Button"
+    },
+    "cfg_title" : {
+        "message"       : "Toolbar Bookmark Settings"
+    },
+    "cfg_h1" : {
+        "message"       : "Toolbar Bookmark Settings"
+    },
+    "cfg_bookmark_url" : {
+        "message"       : "Bookmark URL"
+    },
+    "cfg_toolbar_icon" : {
+        "message"       : "Toolbar Icon"
+    },
+    "cfg_toolbar_icon_fav" : {
+        "message"       : "use site favicon"
+    },
+    "cfg_toolbar_icon_def" : {
+        "message"       : "use default girl icon"
+    },
+    "cfg_or" : {
+        "message"       : "or"
+    },
+    "cfg_save" : {
+        "message"       : "save"
+    },
+    "cfg_close" : {
+        "message"       : "close"
     }
 }

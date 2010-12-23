@@ -2,14 +2,14 @@
    "background_page": "background.html",
    "browser_action": {
       "default_icon": "icon_18.png",
-      "name": "Click to go to bookmark"
+      "name": "__MSG_description__"
    },
    "default_locale": "en",
-   "description": "Customizible Toolbar Bookmark Button",
+   "description": "__MSG_description__",
    "icons": {
       "128": "icon_120.png"
    },
-   "name": "Toolbar Bookmark Button",
+   "name": "__MSG_name__",
    "options_page": "settings.html",
    "permissions": [ "tabs", "http://s2.googleusercontent.com/*" ],
    "version": "4.0"

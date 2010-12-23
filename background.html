@@ -7,7 +7,6 @@ var Bookmark = {
 
     Update: function(request) {
         console.log('-> Bookmark.Update');
-        
         // Bookmark type
         Bookmark.icon.type = request.bookmark_icon;
         window.localStorage.setItem('toolbar_bookmark_icon', request.bookmark_icon);
@@ -53,8 +52,6 @@ var Bookmark = {
         },
         
         set cache(data) {
-            console.warn('storing cache');
-            console.warn(data);
             if (data)
                 window.localStorage.setItem('icon_cache', JSON.stringify(data));
         },
@@ -100,7 +97,6 @@ var Bookmark = {
 // add listener to communicate with settings page
 chrome.extension.onRequest.addListener(
     function(request, sender, sendResponse) {
-        console.log(request);
         if (request.action == 'reset_icon') {
             Bookmark.icon.reset();
         }
@@ -110,10 +106,14 @@ chrome.extension.onRequest.addListener(
     }
 );
 
+
 // bind Iconv click event
 chrome.browserAction.onClicked.addListener(function(tab){
     Bookmark.Click();
 });
+
+chrome.browserAction.setTitle({title: chrome.i18n.getMessage('goto_bookmark')});
+//chrome.browserAction.setBadgeText({text: chrome.i18n.getMessage('goto_bookmark')});
 
 Bookmark.icon.load();
 </script>
