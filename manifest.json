@@ -1,16 +1,23 @@
 {
-   "background_page": "background.html",
-   "browser_action": {
-      "default_icon": "icon_18.png",
-      "name": "__MSG_description__"
-   },
-   "default_locale": "en",
-   "description": "__MSG_description__",
-   "icons": {
-      "128": "icon_120.png"
-   },
-   "name": "__MSG_name__",
-   "options_page": "settings.html",
-   "permissions": [ "tabs", "http://s2.googleusercontent.com/*" ],
-   "version": "4.0"
+    "background": {
+        "page": "/background.html"
+    },
+    "browser_action": {
+        "default_icon": "icon_18.png",
+        "default_title": "__MSG_description__"
+    },
+    "content_scripts": [
+
+    ],
+    "default_locale": "en",
+    "description": "__MSG_description__",
+    "icons": {
+        "128": "icon_120.png"
+    },
+
+    "name": "__MSG_name__",
+    "options_page": "settings.html",
+    "permissions": [ "tabs", "http://s2.googleusercontent.com/*" ],
+    "version": "5.1",
+    "manifest_version": 2
 }

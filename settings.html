@@ -1,82 +1,27 @@
 <!DOCTYPE html>
-<html><head>
-<title>Lol</title>
-<link href="settings.css" rel="stylesheet" type="text/css"> 
+<html>
+<head>
+    <title>Settings</title>
+    <link href="settings.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div id="main">
-        <h1><img src="icon_40.png" alt="" align="absmiddle"> <span id="cfg_h1" class="i18n">Toolbar Bookmark Settings</span></h1>
-        <label for="bookmark_url" id="cfg_bookmark_url" class="i18n">Bookmark URL</label><br />
+        <h1><img src="icon_40.png" alt="" align="absmiddle" /> <span id="cfg_h1" class="i18n">Toolbar Bookmark Settings</span></h1>
+        <label for="bookmark_url" id="cfg_bookmark_url" class="i18n">Bookmark URL</label>
+        <br />
         <input type="text" value="" id="bookmark_url" name="bookmark_url" />
         <br />
-        <span id="cfg_toolbar_icon" class="i18n">Toolbar Icon</span><br />
-        <input type="radio" name="icon_type" id="bookmark_icon_favicon" onclick="javascript:bookmark_icon='favicon';"><label for="bookmark_icon_favicon" id="cfg_toolbar_icon_fav" class="i18n">use site favicon</label><br />
-        <input type="radio" name="icon_type" id="bookmark_icon_def" onclick="javascript:bookmark_icon='default';"><label for="bookmark_icon_def" id="cfg_toolbar_icon_def" class="i18n">use default girl icon</label><br />
-        
-        <!--if site icon doesn't displays correctly in browser toolbar, try to <a href="javascript:void(0)" onclick="reset_icon(); return false">reset it</a>-->
+        <span id="cfg_toolbar_icon" class="i18n">Toolbar Icon</span>
+        <br />
+        <input type="radio" name="icon_type" id="bookmark_icon_favicon" /><label for="bookmark_icon_favicon" id="cfg_toolbar_icon_fav" class="i18n">use site favicon</label>
+        <br />
+        <input type="radio" name="icon_type" id="bookmark_icon_def" /><label for="bookmark_icon_def" id="cfg_toolbar_icon_def" class="i18n">use default girl icon</label>
         <br />
         <br />
-        <input type="button" onclick="save()" value="save" id="cfg_save" class="i18n" /> <span id="cfg_or" class="i18n">or</span> <a href="#" onclick="window.close(); return false" id="cfg_close" class="i18n">close</a>
+        <br />
+        <input type="button" id="cfg_save" class="i18n" /> <span id="cfg_or" class="i18n">or</span> <a href="#" id="cfg_close" class="i18n">close</a>
     </div>
-    
-<script type="text/javascript">
-translate();
 
-var bookmark_icon = (window.localStorage.getItem('toolbar_bookmark_icon'))
-                    ? window.localStorage.getItem('toolbar_bookmark_icon')
-                    : 'default';
-if (bookmark_icon == 'default') {
-    document.getElementById('bookmark_icon_def').checked = 'checked';
-} else {
-    document.getElementById('bookmark_icon_favicon').checked = 'checked';
-}
-
-// display current value
-var bookmark_url = window.localStorage.getItem('toolbar_bookmark_url');
-document.getElementById('bookmark_url').value = bookmark_url;
-
-function translate() {
-    document.title = chrome.i18n.getMessage('cfg_title');
-
-    // translating all i18n elements
-    var i18n = document.getElementsByClassName('i18n');
-    for (var i = 0; i < i18n.length; i++) {
-        var id = i18n[i].id;
-        var trans = chrome.i18n.getMessage(id);
-
-        if (trans) {
-            if (i18n[i].nodeName == 'SPAN' || i18n[i].nodeName == 'LABEL' || i18n[i].nodeName == 'A') {
-                i18n[i].innerHTML = trans;
-                continue;
-            }
-            if (i18n[i].nodeName == 'INPUT') {
-                i18n[i].value = trans;
-                continue;
-            }
-            console.warn('Dont know how to handle translation for '+i18n[i].nodeName);
-        } else {
-            console.warn('NO translation for '+id);
-        }
-    }
-}
-
-// saving new value
-function save() {
-    var url = document.getElementById('bookmark_url').value;
-    if (url != '') {
-        window.localStorage.getItem('toolbar_bookmark_icon')
-        // ask background process to update icon
-        chrome.extension.sendRequest({
-            action          : 'save_bookmark',
-            bookmark_url    : url,
-            bookmark_icon   : bookmark_icon
-        });
-    }
-}
-
-function reset_icon() {
-    chrome.extension.sendRequest({action: 'reset_icon'});
-}
-</script>
+    <script type="text/javascript" src="settings.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #161616;
-    font-family: Sans;
+    font-family: verdana, sans-serif;
 }
 
 #main {
@@ -42,7 +42,16 @@ input[type="text"] {
     margin: 0.3em 0 1.5em 0;
 }
 
-#sh1:after {
-    content: "LOL!";
-    
+#cfg_toolbar_icon {
+    margin: 0 0 -0.7em 0;
+    display: block;
 }
+
+input[type="radio"] {
+    margin-left: 1em;
+}
+
+#cfg_save {
+    padding: 1em;
+}
+
